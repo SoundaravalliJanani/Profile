@@ -1,0 +1,258 @@
+<style>
+	.sr-only {
+		position: absolute !important;
+		clip: rect(1px, 1px, 1px, 1px);
+		padding: 0 !important;
+		border: 0 !important;
+		height: 1px !important;
+		width: 1px !important;
+		overflow: hidden;
+	}
+
+	.tableNew {
+		border-collapse: collapse;
+		table-layout: auto;
+		width: 100%;
+		text-align: left;
+		background: #fff;
+	}
+
+	.tableNew.tableNew--has-expandable-rows>thead>tr,
+	.tableNew.tableNew--has-expandable-rows>tbody>tr:nth-child(4n),
+	.tableNew.tableNew--has-expandable-rows>tbody>tr:nth-child(3n) {
+		background: #ddd;
+	}
+
+	.tableNew--sortableNew>thead>tr>.tableNew__heading {
+		padding: 0;
+	}
+
+	.tableNew__heading,
+	.tableNew__cell {
+		/* border: 1px solid #888; */
+		padding: .625rem;
+		line-height: 1.5rem;
+		white-space: nowrap;
+	}
+
+	.expandable-row {
+		display: none;
+	}
+
+	.expandable-row[aria-hidden="false"] {
+		display: table-row;
+	}
+
+	footer {
+		text-align: center;
+		margin-top: 3rem;
+	}
+
+	/* ---------------------------------------------------- */
+	.tgl {
+		display: none;
+	}
+
+	.tgl,
+	.tgl:after,
+	.tgl:before,
+	.tgl *,
+	.tgl *:after,
+	.tgl *:before,
+	.tgl+.tgl-btn {
+		box-sizing: border-box;
+	}
+
+	.tgl::-moz-selection,
+	.tgl:after::-moz-selection,
+	.tgl:before::-moz-selection,
+	.tgl *::-moz-selection,
+	.tgl *:after::-moz-selection,
+	.tgl *:before::-moz-selection,
+	.tgl+.tgl-btn::-moz-selection {
+		background: none;
+	}
+
+	.tgl::selection,
+	.tgl:after::selection,
+	.tgl:before::selection,
+	.tgl *::selection,
+	.tgl *:after::selection,
+	.tgl *:before::selection,
+	.tgl+.tgl-btn::selection {
+		background: none;
+	}
+
+	.tgl+.tgl-btn {
+		outline: 0;
+		display: block;
+		width: 3.5em;
+		/* margin: 0 auto; */
+		height: 1.8em;
+		position: relative;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.tgl+.tgl-btn:after,
+	.tgl+.tgl-btn:before {
+		position: relative;
+		display: block;
+		content: "";
+		width: 50%;
+		height: 100%;
+	}
+
+	.tgl+.tgl-btn:after {
+		left: 0;
+	}
+
+	.tgl+.tgl-btn:before {
+		display: none;
+	}
+
+	.tgl:checked+.tgl-btn:after {
+		left: 50%;
+	}
+
+	.tgl-light+.tgl-btn {
+		background: #eee;
+		border-radius: 2em;
+		padding: 2px;
+		-webkit-transition: all .4s ease;
+		transition: all .4s ease;
+		border: 1px solid #ddd;
+	}
+
+	.tgl-light+.tgl-btn:after {
+		border-radius: 50px;
+		background: #fff;
+		-webkit-transition: all .2s ease;
+		transition: all .2s ease;
+	}
+
+	.tgl-light:checked+.tgl-btn {
+		background: #A4E786;
+	}
+
+	.td-align {
+		text-align: center;
+		vertical-align: middle !important;
+		/* width: 10px; */
+	}
+
+	.td-align2 {
+		text-align: center;
+		vertical-align: middle !important;
+	}
+
+	.b-top-0 {
+		border-top: 0px !important;
+	}
+	.del-icon{
+		font-size: 26px;
+	}
+</style>
+<div class="mt-3 page page-security" style="display: none;">
+	<div class="card bg-cont" id="auth_security">
+		<div class="card-header lato">
+			<h5 class="pull-left" style="font-family:'LatoWeb'">Authentication Parameters</h5>
+			<i class="ml-2 mt-1 text-primary fa fa-info-circle" data-toggle="tooltip"
+				title="Authentication can be Enabled or Disabled in Bevywise/MQTTRoute/conf/broker.conf"
+				style="cursor: pointer;"></i>
+			<button class="btn btn-sm btn-outline-dark pull-right bg-white" data-toggle="tooltip" title="Add"
+				onclick="$('#add-security').show();"><i class="fa fa-plus text-warning"></i></button>
+		</div>
+		<div class="card-body table-responsive p-0 lato">
+			<div class="dataTables_wrapper dt-bootstrap4">
+				<table class="table tableNew">
+					<!-- <thead class="text-info table-info text-center">
+							<tr>
+								<th>Auth Key</th>
+								<th>Auth Token</th>
+								<th>Access</th>
+								<th>Delete</th>
+							</tr>
+						</thead> -->
+					<tbody id="security-table" class="">
+						<form id="security-table-form" action="javascript: addSecurityDetail();">
+							<tr id="add-security" style="display: none;background-color: #f1f1f1;">
+								<td></td>
+								<td>
+									<h3>Add New</h3>
+									<div class="my-3">
+										<div class="col-10 p-0">
+											<label>Auth Key</label>
+											<input type="text" name="auth_key" pattern="[A-Za-z0-9-]+"
+												class="form-control" placeholder="Auth key" required=""
+												autocomplete="off"><small><i>Only A-Z a-z 0-9 allowed</i></small>
+										</div>
+										<div class="mt-3 row align-items-center">
+											<div class="col-10">
+												<label>Publish Topics</label>
+												<textarea type="text" name="publish_topics"
+													class="form-control" placeholder="Enter publish topic" required=""
+													autocomplete="off"></textarea>
+													<small><i>One or more <b>comma separated</b> topic names of messages sent by this device.</i>
+													</small>
+											</div>
+											<div class="col-2">
+												<label>Allow/Deny</label>
+												<input class="tgl tgl-light" id="publish_toggle" type="checkbox" />
+												<label class="tgl-btn" for="publish_toggle"></label>
+											</div>
+										</div>
+									</div>
+								</td>
+								<td>
+									<h3 class="invisible">Add New</h3>
+									<div class="my-3">
+										<div class="col-10 p-0">
+											<label>Auth Token</label>
+											<input type="text" name="auth_token" pattern="[A-Za-z0-9-]+"
+												class="form-control" placeholder="Auth token" required=""
+												autocomplete="off"><small><i>Only A-Z a-z 0-9 allowed</i></small>
+										</div>
+										<div class="mt-3 row align-items-center">
+											<div class="col-10">
+												<label>Subscribe Topics</label>
+												<textarea type="text" name="subscribe_topics"
+													class="form-control" placeholder="Enter subscribe topic" required=""
+													autocomplete="off"></textarea>
+													<small><i>One or more <b>comma separated</b> topic names of messages sent by this device.</i>
+													</small>
+											</div>
+											<div class="col-2">
+												<label>Allow/Deny</label>
+												<input class="tgl tgl-light" id="subscribe_toggle" type="checkbox" />
+												<label class="tgl-btn" for="subscribe_toggle"></label>
+											</div>
+										</div>
+									</div>
+								</td>
+								<!-- <td>
+										<select name="access_type" class="form-control">
+											<option value="0">Publish & Subscribe</option>
+											<option value="1">Publish Only</option>
+											<option value="2">Subscribe Only</option>
+										</select>
+									</td> -->
+								<td class="td-align">
+									<button type="submit" class="btn btn-success"><i
+											class="fa fa-check"></i></button>&nbsp;&nbsp;
+									<button type="button" class="btn btn-danger" onclick="$('#add-security').hide();"><i
+											class="fa fa-times"></i></button>
+								</td>
+							</tr>
+						</form>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.rawgit.com/edenspiekermann/a11y-toggle/master/a11y-toggle.min.js"></script>

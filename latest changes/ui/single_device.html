@@ -1,0 +1,273 @@
+<div class="mt-3 page page-single-device" style="display: none;">
+	<div class="card card-outline">
+		<div class="card-body text-center lato">
+			<table class="table">
+				<thead class="table-info text-info table-info text-center" style="border-top:1px solid rgba(0,0,0,.125);">
+					<tr>
+						<th>Device Name</th>
+						<th>Device Id</th>
+						<th>Status</th>
+						<th>Will Topic</th>
+						<th>Will Qos</th>
+						<th>Will Message</th>
+						<th>Time</th>
+					</tr>
+				</thead>
+				<tbody class="lato text-center">
+					<tr>					
+						<td>
+							<span id="single-device-name_" ></span>
+							<i class="fa fa-pencil pull-right"  id="device_edit" aria-hidden="true" data-toggle="tooltip" data-placement="top" onclick="getdevicename();" title="Edit" style="cursor: pointer; margin-top:3px"></i>
+							<form action="javascript: closedevicename()">
+								<!-- input id="single-device-name_text" style="display:none" required="" autocomplete="off">
+								<button type="submit" style="display:none" class="btn btn-sm btn-primary fa fa-check" id="save_new_device_name" data-toggle="tooltip" data-placement="top" title="Save"></button> -->
+
+                <div class="input-group">
+                  <input type="text" class="form-control" id="single-device-name_text" style="display:none; width: 80px" required="" autocomplete="off">
+                  <span class="input-group-append">
+                    <button type="submit" style="display:none" class="btn btn-warning btn-flat fa fa-check" id="save_new_device_name" data-toggle="tooltip" data-placement="top" title="Save"></button>
+                  </span>
+                </div>
+							</form>
+						</td>
+						<td><span id="single-device-name"></span> <small style="display:none;" id="single-device-id"></small></td>
+						<td id="single-device-status"></td>
+						<td id="single-device-topic"></td>
+						<td id="single-device-qos"></td>
+						<td id="single-device-message"></td>
+						<td id="single-device-time"></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- <div class="mt-3 row">
+				<div class="col-4">
+					<h3 class=""><i id="single-device-name"></i></h3>
+					<small class="" style="color: #6481b9;">(Device Name)</small>
+				</div>
+				<div class="col-4">
+					<h3 class=""><i id="single-device-status"></i></h3>
+					<small class="" style="color: #6481b9;">(Status)</small>
+				</div>
+				<div class="col-4">
+					<h3 class=""><i id="single-device-ip">127.0.0.1</i></h3>
+					<small class="" style="color: #6481b9;">(IP Address)</small>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<h3 class=""><i id="single-device-id"></i></h3>
+					<small class="" style="color: #6481b9;">(Device  Id)</small>
+				</div>
+				<div class="col-4">
+					<h3 class=""><i></i></h3>
+					<small class="" style="color: #6481b9;"></small>
+				</div>
+				<div class="col-4">
+					<h3 class=""><i id="single-device-time"></i></h3>
+					<small class="" style="color: #6481b9;">(Time)</small>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<h4 class=""><i id="single-device-topic">Will/topic</i></h4>
+					<small class="" style="color: #6481b9;">(Will Topic)</small>
+				</div>
+				<div class="col-4">
+					<h4 class=""><i id="single-device-qos">QoS-2</i></h4>
+					<small class="" style="color: #6481b9;">(Will QoS</small>
+				</div>
+				<div class="col-4">
+					<h4 class=""><i id="single-device-message">0</i></h4>
+					<small class="" style="color: #6481b9;">(Will Message)</small>
+				</div>
+			</div> -->
+		</div>
+	</div>
+	<div class="card card-outline card-outline-success">
+		<div class="card-header lato pb-1">
+			<ul class="nav nav-tabs card-header-tabs">
+				<li class="nav-item" style="margin-bottom: 7px;">
+					<a class="nav-link nav-single" onclick="setSingleDevicePage(this, 'pub-msg');" style="cursor:pointer;">Events</a>
+				</li>
+				<li class="nav-item" style="margin-bottom: 7px;">
+					<a class="nav-link nav-single" onclick="setSingleDevicePage(this, 'recv-msg');" style="cursor:pointer;">Commands</a>
+				</li>
+				<li class="nav-item" style="margin-bottom: 7px;">
+					<a class="nav-link nav-single" onclick="setSingleDevicePage(this, 'sub-topic');" style="cursor:pointer;">Subscribe Topics</a>
+				</li>
+				<li class="nav-item" style="margin-bottom: 7px;">
+					<a class="nav-link nav-single active" onclick="setSingleDevicePage(this, 'sent-cmd');getSubscribeTopics();" style="cursor:pointer;">Send Command</a>
+				</li>
+				<li class="nav-item" style="margin-bottom: 7px;">
+					<a class="nav-link nav-single" onclick="setSingleDevicePage(this, 'sent-acl');" style="cursor:pointer;">ACL</a>
+				</li>
+			</ul>
+		</div>
+		<div class="card-body  table-responsive p-0 lato">
+			<!-- <div class="mt-3 container card bg-cont">
+				<div class="card-body text-center">
+					<div class="row">
+						<div class="col-4">
+							<h3 class="form-check-inline"><i>Device/ID</i></h3>
+							<small class="form-check-inline" style="color: #6481b9;">(Device id)</small>
+						</div>
+						<div class="col-4">
+							<h3 class="form-check-inline"><i class="badge badge-success">Online</i></h3>
+							<small class="form-check-inline" style="color: #6481b9;">(Status)</small>
+						</div>
+						<div class="col-4">
+							<h3 class="form-check-inline"><i>127.0.0.1</i></h3>
+							<small class="form-check-inline" style="color: #6481b9;">(IP Address)</small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							<h3 class="form-check-inline"><i>Device Name</i></h3>
+							<small class="form-check-inline" style="color: #6481b9;">(Device Name)</small>
+						</div>
+						<div class="col-4">
+							<h3 class="form-check-inline"><i>will/Topic</i></h3>
+							<small class="form-check-inline" style="color: #6481b9;">(Will Topic)</small>
+						</div>
+						<div class="col-4">
+							<h3 class="form-check-inline"><i>Sat Oct 19 2019 17:27:15</i></h3>
+							<small class="form-check-inline" style="color: #6481b9;">(time)</small>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<div class="mt-3 mb-3">
+				<form action="javascript:sendCommand()" class="container s-d-p sent-cmd">
+					<div class="form-group">
+						<label>Topic</label>
+						<select class="form-control" name="topic" id="client-sub-topic-selector" required="">
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Message</label>
+						<textarea class="form-control" id="client-send-message" name="message" required=""></textarea>
+					</div>
+					<div class="mt-5 mb-5 row">
+						<div class="col-md-10 form-group">
+							<i class="device-send-success text-success"></i>
+							<i class="device-send-fail text-danger"></i>
+						</div>
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-sm btn-warning float-right">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="dataTables_wrapper dt-bootstrap4 s-d-p sub-topic" style="display: none;">
+				<table class="table">
+					<thead style="background-color: #eee" class="text-center">
+						<tr>
+							<th>Topic</th>
+							<th> QoS </th>
+						</tr>
+					</thead>
+					<tbody id="active-subscription" class="text-center"></tbody>
+				</table>
+			</div>
+			<div class="dataTables_wrapper dt-bootstrap4 s-d-p pub-msg" style="display: none;">
+				<ul class="pagination pagination-sm m-0 float-right">
+					<li class="paginate_button page-item previous" id="example1_previous">
+						<a href="javascript: changeRecvEventPage(-1)" class="page-link">
+							<i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+						</a>
+					</li>
+					<li class="paginate_button page-item next">
+						<a href="javascript: changeRecvEventPage(1)" class="page-link">
+							<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+						</a>
+					</li>
+				</ul>
+				<table class="table">
+					<thead style="background-color: #eee" class="text-center">
+						<tr>
+							<th>Topic</th>
+							<th> QoS </th>
+							<th style="width: 35%"> Message </th>
+							<th>Time</th>
+						</tr>
+					</thead>
+					<tbody id="single-device-publish" class="text-center"></tbody>
+				</table>
+			</div>
+			<div class="dataTables_wrapper dt-bootstrap4 s-d-p recv-msg" style="display: none;">
+				<ul class="pagination pagination-sm m-0 float-right">
+					<li class="paginate_button page-item previous" id="example1_previous">
+						<a href="javascript: changeSendCmdPage(-1)" class="page-link">
+							<i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+						</a>
+					</li>
+					<li class="paginate_button page-item next">
+						<a href="javascript: changeSendCmdPage(1)" class="page-link">
+							<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+						</a>
+					</li>
+				</ul>
+				<table class="table">
+					<thead style="background-color: #eee" class="text-center">
+						<tr>
+							<th>Topic</th>
+							<th> QoS </th>
+							<th> Message </th>
+							<th>Time</th>
+						</tr>
+					</thead>
+					<tbody id="single-device-sent" class="text-center"></tbody>
+				</table>
+			</div>
+
+			<div class="dataTables_wrapper dt-bootstrap4 s-d-p sent-acl" style="display: none;">
+				<form id="device-acl-form" action="javascript:sendAcl()" class="container">
+					<!-- <div class="form-group">
+						<label>Publish</label>
+						<input class="form-control" name="publish" id="publish-topic" required="">
+					</div>
+					<div class="form-group">
+						<label>Subscribe</label>
+						<input class="form-control" name="subscribe" id="subscribe-topic" required="">
+					</div> -->
+					<div class="my-3 row align-items-center">
+						<div class="col-10">
+							<label>Publish Topics</label>
+							<input type="text" name="publish_topics" class="form-control" id="publish-topic" placeholder="Enter publish topic" autocomplete="off">
+								<small><i>One or more <b>comma separated</b> topic names of messages sent by this device.</i>
+								</small>
+						</div>
+						<div class="col-2">
+							<label>Allow/Deny</label>
+							<input class="tgl tgl-light form-control" id="pub_access" name="publish_access" type="checkbox" />
+							<label class="tgl-btn" for="pub_access"></label>
+						</div>
+					</div>
+					<div class="my-4 row align-items-center">
+						<div class="col-10">
+							<label>Subscribe Topics</label>
+							<input type="text" name="subscribe_topics" class="form-control" id="subscribe-topic" placeholder="Enter subscribe topic" autocomplete="off">
+								<small><i>One or more <b>comma separated</b> topic names of messages sent by this device.</i>
+								</small>
+						</div>
+						<div class="col-2">
+							<label>Allow/Deny</label>
+							<input class="tgl tgl-light" id="sub_access" name="subscribe_access" type="checkbox">
+							<label class="tgl-btn" for="sub_access"></label>
+						</div>
+					</div>
+					
+					<div class="mt-5 mb-5 row">
+						<div class="col-md-10 form-group">
+							<i class="device-send-success text-success"></i>
+							<i class="device-send-fail text-danger"></i>
+						</div>
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-sm btn-warning float-right">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
